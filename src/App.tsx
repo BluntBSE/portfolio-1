@@ -55,6 +55,13 @@ function App() {
 
   return (
     <>
+      <div className="overlay">
+        <h1>Rowan Meyer</h1>
+        <h2>Software Engineer</h2>
+        <p>About</p>
+        <p>Tools</p>
+        <p>Projects</p>
+      </div>
       <Canvas id="canvas">
         <fog attach="fog" args={["black", 2, 9.0]} />
         <pointLight
