@@ -61,6 +61,14 @@ function App() {
         <p>About</p>
         <p>Tools</p>
         <p>Projects</p>
+        <p>CV</p>
+      </div>
+      <div className="content-overlay">
+        <p>
+          I am a software engineer who specializes in geospatial data and
+          visualization. I work with mission-driven organizations develop their
+          infrastructure and share their data with the world.
+        </p>
       </div>
       <Canvas id="canvas">
         <fog attach="fog" args={["black", 2, 9.0]} />

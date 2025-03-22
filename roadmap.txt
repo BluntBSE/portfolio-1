@@ -1,0 +1,9 @@
+1 - Decide how to highlight selected option. A strong horizontal line would be cool, but a pain?
+2 - Decide how to animate the content (fade for now?)
+3 - Projects. needs a sub dropdown. Includes Multiprocessing Demo, SubRogue, SongInspector
+---later update project to "tools" for when we do pathways visuaalizer.
+4 - Decide how to render CV. A light background box per item might be best.
+5 - Where to add github
+6 - Contact Form
+7??? - Figure out mobile layout
+8--- Clamped orbit control on mouse movement.
