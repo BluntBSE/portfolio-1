@@ -10,14 +10,18 @@ import { Mesh, Group } from "three";
 import { Leva, useControls } from "leva";
 import "./App.css";
 
-function Experience() {
+interface ExperienceProps {
+  color: string;
+}
+
+function Experience({ color }: ExperienceProps) {
   const tiltAngle = (-1.0 * (20 * Math.PI)) / 180; // Convert 20 degrees to radians
   const groupRef = useRef<Group>(null);
   const meshRef = useRef<Mesh>(null);
 
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.001; // Adjust the rotation speed as needed
+      meshRef.current.rotation.y += 0.0005; // Adjust the rotation speed as needed
     }
   });
 
@@ -26,11 +30,14 @@ function Experience() {
       <group ref={groupRef} rotation={[0, 0, tiltAngle]}>
         <mesh ref={meshRef}>
           <sphereGeometry args={[3.0, 24, 24]} />
-          <meshStandardMaterial
+          <meshPhongMaterial
             wireframe
-            color={"darkgray"}
-            emissive={"gray"}
+            color={"white"}
+            emissive={"#807f7f"}
             emissiveIntensity={1}
+            shininess={100} // Adjust shininess for smoother reflections
+            transparent
+            opacity={0.2}
           />
         </mesh>
       </group>
@@ -39,20 +46,29 @@ function Experience() {
 }
 
 function App() {
-  const { x, y, z } = useControls({
-    x: { value: 0, min: -10, max: 10, step: 0.1 },
-    y: { value: 3, min: -10, max: 10, step: 0.1 },
-    z: { value: 3, min: -10, max: 10, step: 0.1 },
-  });
+  const { x, y, z, color } = {
+    x: { value: -1.7, min: -10, max: 10, step: 0.1 },
+    y: { value: -1.1, min: -10, max: 10, step: 0.1 },
+    z: { value: 3.9, min: -10, max: 10, step: 0.1 },
+    color: { value: "#c9c9c9" }, // Add color control
+  };
+
   return (
     <>
-      <Leva />
-
       <Canvas id="canvas">
         <fog attach="fog" args={["black", 2, 9.0]} />
-        <pointLight position={[x, y, z]} color="red" intensity={6} />
+        <pointLight
+          position={[x.value, y.value, z.value]}
+          color="hotpink"
+          intensity={12}
+        />
+        <pointLight
+          position={[-x.value, -y.value, z.value]}
+          color="hotpink"
+          intensity={12}
+        />
 
-        <Experience />
+        <Experience color={"#807f7f"} />
         <EffectComposer>
           <Bloom
             luminanceThreshold={0}
@@ -61,7 +77,6 @@ function App() {
             intensity={1.5}
           />
         </EffectComposer>
-        <Stats />
       </Canvas>
     </>
   );
