@@ -1,5 +1,4 @@
 #canvas {
-  background-color: #eecfcf;
 }
 
 html,
@@ -17,7 +16,7 @@ body,
   position: absolute;
   top: 20px;
   left: 5%;
-  color: rgb(92, 13, 73);
+  color: rgb(103, 90, 133);
   font-family: "Kantumruy Pro", sans-serif;
   font-optical-sizing: auto;
   font-weight: 600;
@@ -46,14 +45,19 @@ h2 {
   height: 100vh;
 }
 
+#leva__root {
+  visibility: hidden;
+}
+
 .content-overlay {
   background-color: rgba(255, 255, 255, 0.247);
-  padding: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   position: absolute;
   top: 68%;
   right: 5%;
   width: 50%;
-  color: rgb(92, 13, 73);
+  color: rgb(103, 90, 133);
   font-family: "Kantumruy Pro", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
