@@ -1,11 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface NavigationProps {
   font_color: string;
   panel_color: string;
+  navcallback: (panel: string) => void;
 }
 
-function Navigation({ font_color, panel_color }: NavigationProps) {
+function Navigation({ font_color, panel_color, navcallback }: NavigationProps) {
+  const navigate = useNavigate(); // Hook to programmatically navigate
+
   return (
     <div
       className="overlay"
@@ -13,38 +16,50 @@ function Navigation({ font_color, panel_color }: NavigationProps) {
     >
       <h1>Rowan Meyer</h1>
       <h2>Software Engineer</h2>
-      <NavLink
-        to="/"
-        className={({ isActive }) =>
-          isActive ? "nav-link active" : "nav-link"
-        }
+      <Link
+        to="#"
+        className="nav-link"
+        onClick={(e) => {
+          e.preventDefault(); // Prevent default link behavior
+          navcallback("about"); // Trigger the callback
+          navigate("/"); // Navigate programmatically
+        }}
       >
         About
-      </NavLink>
-      <NavLink
-        to="/tools"
-        className={({ isActive }) =>
-          isActive ? "nav-link active" : "nav-link"
-        }
+      </Link>
+      <Link
+        to="#"
+        className="nav-link"
+        onClick={(e) => {
+          e.preventDefault(); // Prevent default link behavior
+          navcallback("tools"); // Trigger the callback
+          navigate("/tools"); // Navigate programmatically
+        }}
       >
         Tools
-      </NavLink>
-      <NavLink
-        to="/projects"
-        className={({ isActive }) =>
-          isActive ? "nav-link active" : "nav-link"
-        }
+      </Link>
+      <Link
+        to="#"
+        className="nav-link"
+        onClick={(e) => {
+          e.preventDefault(); // Prevent default link behavior
+          navcallback("projects"); // Trigger the callback
+          navigate("/projects"); // Navigate programmatically
+        }}
       >
         Projects
-      </NavLink>
-      <NavLink
-        to="/cv"
-        className={({ isActive }) =>
-          isActive ? "nav-link active" : "nav-link"
-        }
+      </Link>
+      <Link
+        to="#"
+        className="nav-link"
+        onClick={(e) => {
+          e.preventDefault(); // Prevent default link behavior
+          navcallback("cv"); // Trigger the callback
+          navigate("/cv"); // Navigate programmatically
+        }}
       >
         CV
-      </NavLink>
+      </Link>
     </div>
   );
 }

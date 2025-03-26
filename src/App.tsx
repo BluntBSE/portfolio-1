@@ -19,6 +19,9 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SmokeEffect from "./components/SmokeEffect";
 import About from "./components/About";
 import Navigation from "./components/Navigation";
+import CV from "./components/Cv"; // Create this component
+
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ExperienceProps {
   color: string;
@@ -178,18 +181,63 @@ function App() {
     }
   }, [color_fog]);
 
+  const [currentPanel, setCurrentPanel] = useState("about"); // Track the current panel
+
+  const handleNavigation = (panel: string) => {
+    console.log("Hello from handle");
+    setCurrentPanel(panel);
+  };
+
+  const panelVariants = {
+    initial: { y: 0, opacity: 1 },
+    bounceUp: { y: -50, transition: { type: "spring", stiffness: 300 } },
+    slideOut: { y: "-100%", opacity: 0, transition: { duration: 0.5 } },
+    slideIn: { y: "100%", opacity: 0, transition: { duration: 0 }, zIndex: 1 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
+  };
+
   return (
     <>
       <div className="mobile-bg"></div>
       <Router>
-        <Navigation font_color={font_color} panel_color={"#ffffff00"} />
+        <Navigation
+          font_color="#ffffff"
+          panel_color="#ffffff00"
+          navcallback={handleNavigation}
+        />
+        <AnimatePresence mode="wait">
+          {currentPanel === "about" && (
+            <motion.div
+              key="about"
+              className="content-overlay"
+              style={{ color: "#ffffff", backgroundColor: "#000000" }}
+              variants={panelVariants}
+              initial="slideIn"
+              animate="visible"
+              exit="slideOut"
+            >
+              <About />
+            </motion.div>
+          )}
+          {currentPanel === "cv" && (
+            <motion.div
+              key="cv"
+              className="content-overlay"
+              style={{ color: "#ffffff", backgroundColor: "#000000" }}
+              variants={panelVariants}
+              initial="slideIn"
+              animate="visible"
+              exit="slideOut"
+            >
+              <CV />
+            </motion.div>
+          )}
+        </AnimatePresence>{" "}
       </Router>
       <div
         className="content-overlay"
         style={{ color: font_color, backgroundColor: panel_color }} // Dynamically set font color
-      >
-        <About />
-      </div>
+      ></div>
       <Canvas id="canvas">
         <Suspense fallback={null}>
           <SmokeEffect />

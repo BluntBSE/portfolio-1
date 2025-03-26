@@ -67,7 +67,7 @@ h2 {
 }
 
 #leva__root {
-  visibility: visible;
+  visibility: hidden;
 }
 
 .content-overlay {
