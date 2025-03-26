@@ -1,5 +1,4 @@
 #canvas {
-  background-color: #d8cece;
 }
 
 html,
@@ -11,4 +10,105 @@ body,
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  top: 20px;
+  left: 5%;
+  color: rgb(103, 90, 133);
+  font-family: "Kantumruy Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+
+  z-index: 10;
+}
+
+.overlay > a {
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 0;
+  display: block;
+  margin-top: 1rem;
+  color: white;
+  text-decoration: none;
+}
+
+.overlay > a:hover {
+  color: rgb(103, 90, 133);
+}
+
+.overlay > a:active {
+  color: rgb(117, 133, 90);
+}
+
+h1 {
+  font-size: 4rem;
+  margin-bottom: -1rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+#canvas {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.mobile-bg {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  z-index: 5;
+  background-color: transparent;
+}
+
+#leva__root {
+  visibility: visible;
+}
+
+.content-overlay {
+  background-color: rgba(255, 255, 255, 0.247);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: absolute;
+  top: clamp(
+    55%,
+    30vw,
+    68%
+  ); /* 68vh times the fraction smaller than 1920x1080 */
+  right: 5%;
+  width: 50%;
+  color: rgb(103, 90, 133);
+  font-family: "Kantumruy Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  z-index: 10;
+}
+
+.content-overlay > p {
+  font-size: clamp(1.5rem, 3.3vmin, 3.3vmin);
+}
+
+.nav-link {
+  color: inherit; /* Default color from font_color */
+  text-decoration: none;
+  transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.nav-link:hover {
+  color: rgb(200, 50, 50); /* Hover color */
+}
+
+.nav-link.active {
+  color: #f74739; /* Active link color */
+}
+@media (max-width: 450px) {
+  .mobile-bg {
+    background-color: #050f97c2; /* Semi-transparent black for small screens */
+  }
 }
