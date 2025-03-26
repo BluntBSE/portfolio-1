@@ -42,29 +42,77 @@ function Experience({
   const groupRef = useRef<Group>(null);
   const meshRef = useRef<Mesh>(null);
 
+  const [targetTilt, setTargetTilt] = useState({ x: 0, y: 0, z: tiltAngle }); // Target tilt angles
+  const currentTilt = useRef({ x: 0, y: 0, z: tiltAngle }); // Current tilt angles
+
+  // Utility function to clamp values
+  const clamp = (value: number, min: number, max: number) => {
+    return Math.max(min, Math.min(max, value));
+  };
+
+  // Utility function for linear interpolation (lerp)
+  const lerp = (start: number, end: number, t: number) => {
+    return start + (end - start) * t;
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+    const { clientX, clientY } = event;
+
+    // Map mouse position to tilt angles
+    const tiltX = ((clientY / window.innerHeight) * 2 - 1) * 0.2; // Map Y-axis to [-0.2, 0.2]
+    const tiltY = ((clientX / window.innerWidth) * 2 - 1) * 0.2; // Map X-axis to [-0.2, 0.2]
+    const tiltZ = tiltAngle; // Use a fixed tilt angle
+
+    // Clamp the tilt values and set the target tilt
+    setTargetTilt({
+      x: clamp(tiltX, -0.2, 0.2),
+      y: clamp(tiltY, -0.2, 0.2),
+      z: tiltZ,
+    });
+  };
+
+  useEffect(() => {
+    // Add the event listener
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []); // Empty dependency array ensures this runs only once
+
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.0005; // Adjust the rotation speed as needed
+      // Smoothly interpolate current tilt toward target tilt
+      currentTilt.current.x = lerp(currentTilt.current.x, targetTilt.x, 0.1); // Adjust the 0.1 for smoother or faster easing
+      currentTilt.current.y = lerp(currentTilt.current.y, targetTilt.y, 0.1);
+      currentTilt.current.z = lerp(currentTilt.current.z, targetTilt.z, 0.1);
+
+      // Apply the interpolated tilt to the group
+      groupRef.current!.rotation.x = currentTilt.current.x;
+      groupRef.current!.rotation.y = currentTilt.current.y;
+      groupRef.current!.rotation.z = currentTilt.current.z;
+
+      // Slowly rotate the orb on the Y-axis for additional effect
+      meshRef.current.rotation.y += 0.0005;
     }
   });
 
   return (
-    <>
-      <group ref={groupRef} rotation={[0, 0, tiltAngle]}>
-        <mesh ref={meshRef}>
-          <sphereGeometry args={[3.0, 24, 24]} />
-          <meshPhongMaterial
-            wireframe
-            color={color}
-            emissive={emissive_color}
-            emissiveIntensity={emissive_intensity}
-            shininess={shininess} // Adjust shininess for smoother reflections
-            transparent
-            opacity={opacity}
-          />
-        </mesh>
-      </group>
-    </>
+    <group ref={groupRef}>
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[3.0, 24, 24]} />
+        <meshPhongMaterial
+          wireframe
+          color={color}
+          emissive={emissive_color}
+          emissiveIntensity={emissive_intensity}
+          shininess={shininess}
+          transparent
+          opacity={opacity}
+        />
+      </mesh>
+    </group>
   );
 }
 
@@ -82,8 +130,8 @@ function App() {
     color_wireframe: "#ffffff",
     shininess: 100,
     opacity: 1.0,
-    font_color: "#ffffff", // Default font color
-    panel_color: "#000000", // Default panel color
+    font_color: "#ffffff",
+    panel_color: "#000000",
   };
 
   const savedSettings = JSON.parse(localStorage.getItem("settings") || "{}");

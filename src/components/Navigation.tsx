@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 interface NavigationProps {
   font_color: string;
@@ -8,10 +9,11 @@ interface NavigationProps {
 
 function Navigation({ font_color, panel_color, navcallback }: NavigationProps) {
   const navigate = useNavigate(); // Hook to programmatically navigate
+  const [isProjectsActive, setIsProjectsActive] = useState(false); // Track if "Projects" is active
 
   return (
     <div
-      className="overlay"
+      className={`overlay ${isProjectsActive ? "expanded" : ""}`} // Add a class when expanded
       style={{ color: font_color, backgroundColor: panel_color }}
     >
       <h1>Rowan Meyer</h1>
@@ -20,9 +22,10 @@ function Navigation({ font_color, panel_color, navcallback }: NavigationProps) {
         to="#"
         className="nav-link"
         onClick={(e) => {
-          e.preventDefault(); // Prevent default link behavior
-          navcallback("about"); // Trigger the callback
-          navigate("/"); // Navigate programmatically
+          e.preventDefault();
+          navcallback("about");
+          navigate("/");
+          setIsProjectsActive(false); // Collapse if navigating away
         }}
       >
         About
@@ -31,9 +34,10 @@ function Navigation({ font_color, panel_color, navcallback }: NavigationProps) {
         to="#"
         className="nav-link"
         onClick={(e) => {
-          e.preventDefault(); // Prevent default link behavior
-          navcallback("tools"); // Trigger the callback
-          navigate("/tools"); // Navigate programmatically
+          e.preventDefault();
+          navcallback("tools");
+          navigate("/tools");
+          setIsProjectsActive(false); // Collapse if navigating away
         }}
       >
         Tools
@@ -42,20 +46,59 @@ function Navigation({ font_color, panel_color, navcallback }: NavigationProps) {
         to="#"
         className="nav-link"
         onClick={(e) => {
-          e.preventDefault(); // Prevent default link behavior
-          navcallback("projects"); // Trigger the callback
-          navigate("/projects"); // Navigate programmatically
+          e.preventDefault();
+          navcallback("projects");
+          navigate("/projects");
+          setIsProjectsActive(true); // Expand when "Projects" is active
         }}
       >
         Projects
       </Link>
+      {isProjectsActive && (
+        <div className="sub-links">
+          <Link
+            to="#"
+            className="nav-link"
+            onClick={(e) => {
+              e.preventDefault();
+              navcallback("subrogue");
+              navigate("/projects/searogue");
+            }}
+          >
+            SubRogue
+          </Link>
+          <Link
+            to="#"
+            className="nav-link"
+            onClick={(e) => {
+              e.preventDefault();
+              navcallback("geodatabase");
+              navigate("/projects/geodatabase");
+            }}
+          >
+            GeodataBase Multiprocessing
+          </Link>
+          <Link
+            to="#"
+            className="nav-link"
+            onClick={(e) => {
+              e.preventDefault();
+              navcallback("songinspector");
+              navigate("/projects/songinspector");
+            }}
+          >
+            SongInspector
+          </Link>
+        </div>
+      )}
       <Link
         to="#"
         className="nav-link"
         onClick={(e) => {
-          e.preventDefault(); // Prevent default link behavior
-          navcallback("cv"); // Trigger the callback
-          navigate("/cv"); // Navigate programmatically
+          e.preventDefault();
+          navcallback("cv");
+          navigate("/cv");
+          setIsProjectsActive(false); // Collapse if navigating away
         }}
       >
         CV

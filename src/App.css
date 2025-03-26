@@ -25,6 +25,29 @@ body,
   z-index: 10;
 }
 
+/* Base styles for the navigation container */
+.overlay {
+  overflow: hidden; /* Ensure smooth height transition */
+  transition: height 0.3s ease; /* Smooth height transition */
+}
+
+/* Expanded state for the navigation container */
+.overlay.expanded {
+  height: auto; /* Allow the container to grow */
+}
+
+/* Styles for sub-links */
+.sub-links {
+  margin-top: 1rem;
+  padding-left: 1rem;
+}
+
+.sub-links .nav-link {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
 .overlay > a {
   font-weight: 600;
   font-size: 2rem;
