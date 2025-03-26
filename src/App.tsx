@@ -14,8 +14,11 @@ import {
 } from "@react-three/drei";
 import { Mesh, Group, AmbientLight } from "three";
 import { Leva, useControls } from "leva";
-import smokeURL from "./assets/smoke_1_black.png";
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import SmokeEffect from "./components/SmokeEffect";
+import About from "./components/About";
+import Navigation from "./components/Navigation";
 
 interface ExperienceProps {
   color: string;
@@ -23,61 +26,6 @@ interface ExperienceProps {
   emissive_intensity: number;
   shininess: number;
   opacity: number;
-}
-
-function SmokeEffect() {
-  const smokeTexture = useLoader(TextureLoader, smokeURL); // Load the smoke texture
-  const smokeRefs = useRef<Mesh[]>([]); // Array of references for smoke planes
-
-  // Create an array of smoke planes with random initial positions and rotations
-  const smokePlanes = Array.from({ length: 50 }, (_, i) => ({
-    map: smokeTexture,
-    transparent: true,
-    opacity: 1.0,
-    id: i,
-    position: [
-      Math.random() * 20 - 20,
-      Math.random() * 15 - 10.5,
-      Math.random() * -5 - 5,
-    ],
-    rotation: Math.random() * Math.PI * 2,
-  }));
-
-  // Animate the smoke planes to move from right to left
-  useFrame(() => {
-    smokeRefs.current.forEach((smoke, index) => {
-      if (smoke) {
-        smoke.position.x -= 0.01; // Move left
-        smoke.rotation.z -= 0.001; // Rotate
-        if (smoke.position.x < -20) {
-          // Reset position when off-screen
-          smoke.position.x = 20;
-          smoke.position.y = Math.random() * 5 - 2.5; // Randomize vertical position
-          smoke.rotation.z = Math.random() * Math.PI * 2; // Randomize rotation
-        }
-      }
-    });
-  });
-
-  return (
-    <>
-      {smokePlanes.map((plane, index) => (
-        <mesh
-          key={plane.id}
-          ref={(el) => (smokeRefs.current[index] = el!)} // Store references
-          position={plane.position as [number, number, number]}
-          rotation={[0, 0, plane.rotation]}
-        >
-          <planeGeometry args={[2, 2]} />
-          <meshStandardMaterial
-            map={smokeTexture}
-            transparent={true}
-            opacity={0.5}
-          />
-        </mesh>
-      ))}
-    </>
-  );
 }
 
 function Experience({
@@ -122,17 +70,17 @@ function App() {
     x: -1.7,
     y: -1.1,
     z: 3.9,
-    color: "#c9c9c9",
-    color_fog: "#000000",
-    color_emission: "#807f7f",
-    emission_intensity: 0.5,
-    color_light: "#ff69b4",
-    color_light_intensity: 12,
-    color_wireframe: "white",
+    color: "#ffffff",
+    color_fog: "#0033ff",
+    color_emission: "#ffffff",
+    emission_intensity: 0.1,
+    color_light: "#f74739",
+    color_light_intensity: 38,
+    color_wireframe: "#ffffff",
     shininess: 100,
     opacity: 1.0,
     font_color: "#ffffff", // Default font color
-    panel_color: "#00000099", // Default panel color
+    panel_color: "#000000", // Default panel color
   };
 
   const savedSettings = JSON.parse(localStorage.getItem("settings") || "{}");
@@ -232,26 +180,14 @@ function App() {
 
   return (
     <>
-      <div
-        className="overlay"
-        style={{ color: font_color }} // Dynamically set font color
-      >
-        <h1>Rowan Meyer</h1>
-        <h2>Software Engineer</h2>
-        <p>About</p>
-        <p>Tools</p>
-        <p>Projects</p>
-        <p>CV</p>
-      </div>
+      <Router>
+        <Navigation font_color={font_color} panel_color={"#ffffff00"} />
+      </Router>
       <div
         className="content-overlay"
         style={{ color: font_color, backgroundColor: panel_color }} // Dynamically set font color
       >
-        <p>
-          I am a software engineer who specializes in geospatial data and
-          visualization. I work with mission-driven organizations develop their
-          infrastructure and share their data with the world.
-        </p>
+        <About />
       </div>
       <Canvas id="canvas">
         <Suspense fallback={null}>
