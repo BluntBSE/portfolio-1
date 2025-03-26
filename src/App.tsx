@@ -180,6 +180,7 @@ function App() {
 
   return (
     <>
+      <div className="mobile-bg"></div>
       <Router>
         <Navigation font_color={font_color} panel_color={"#ffffff00"} />
       </Router>
