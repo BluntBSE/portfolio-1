@@ -48,9 +48,17 @@ body,
   font-size: 1rem;
 }
 
-.overlay > a {
+.overlay {
+  font-size: clamp(1.5rem, 6vmin, 4rem);
+}
+.overlay h1 {
+  font-size: clamp(2rem, 8vmin, 4rem);
+}
+.overlay h2 {
+  font-size: clamp(2rem, 8vmin, 4rem);
+}
+.overlay a {
   font-weight: 600;
-  font-size: 2rem;
   margin-bottom: 0;
   display: block;
   margin-top: 1rem;
@@ -114,6 +122,35 @@ h2 {
 }
 
 .content-overlay > p {
+  font-size: clamp(1.3rem, 3.3vmin, 3.3vmin);
+}
+
+.cv-overlay {
+  background-color: rgba(255, 255, 255, 0.247);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: absolute;
+  top: clamp(39%, 30vw, 40%);
+  right: 5%;
+  width: 50%;
+  color: rgb(103, 90, 133);
+  font-family: "Kantumruy Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  z-index: 10;
+}
+
+.cv-overlay h1 {
+  font-size: clamp(2rem, 6.3vmin, 6.3vmin);
+  margin-bottom: 2rem;
+}
+
+.cv-overlay h2 {
+  font-size: clamp(1rem, 3vmin, 4vmin);
+}
+
+.cv-overlay > p {
   font-size: clamp(1.5rem, 3.3vmin, 3.3vmin);
 }
 

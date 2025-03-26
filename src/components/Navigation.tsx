@@ -35,13 +35,14 @@ function Navigation({ font_color, panel_color, navcallback }: NavigationProps) {
         className="nav-link"
         onClick={(e) => {
           e.preventDefault();
-          navcallback("tools");
-          navigate("/tools");
+          navcallback("cv");
+          navigate("/cv");
           setIsProjectsActive(false); // Collapse if navigating away
         }}
       >
-        Tools
+        CV
       </Link>
+
       <Link
         to="#"
         className="nav-link"
@@ -91,18 +92,10 @@ function Navigation({ font_color, panel_color, navcallback }: NavigationProps) {
           </Link>
         </div>
       )}
-      <Link
-        to="#"
-        className="nav-link"
-        onClick={(e) => {
-          e.preventDefault();
-          navcallback("cv");
-          navigate("/cv");
-          setIsProjectsActive(false); // Collapse if navigating away
-        }}
-      >
-        CV
-      </Link>
+
+      <a href="mailto:to.rowan.meyer@gmail.com" className="nav-link">
+        Email
+      </a>
     </div>
   );
 }

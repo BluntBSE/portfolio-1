@@ -35,7 +35,6 @@ function Experience({
   color,
   emissive_color,
   emissive_intensity,
-  shininess,
   opacity,
 }: ExperienceProps) {
   const tiltAngle = (-1.0 * (20 * Math.PI)) / 180; // Convert 20 degrees to radians
@@ -107,7 +106,6 @@ function Experience({
           color={color}
           emissive={emissive_color}
           emissiveIntensity={emissive_intensity}
-          shininess={shininess}
           transparent
           opacity={opacity}
         />
@@ -237,10 +235,10 @@ function App() {
   };
 
   const panelVariants = {
-    initial: { y: 0, opacity: 1 },
+    initial: { y: 0, opacity: 1, zIndex: 10 },
     bounceUp: { y: -50, transition: { type: "spring", stiffness: 300 } },
     slideOut: { y: "-100%", opacity: 0, transition: { duration: 0.5 } },
-    slideIn: { y: "100%", opacity: 0, transition: { duration: 0 }, zIndex: 1 },
+    slideIn: { y: "100%", opacity: 0, transition: { duration: 0 }, zIndex: 10 },
     visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
   };
 
@@ -258,7 +256,11 @@ function App() {
             <motion.div
               key="about"
               className="content-overlay"
-              style={{ color: "#ffffff", backgroundColor: "#000000" }}
+              style={{
+                color: "#ffffff",
+                backgroundColor: panel_color,
+                zIndex: 10,
+              }}
               variants={panelVariants}
               initial="slideIn"
               animate="visible"
@@ -270,8 +272,12 @@ function App() {
           {currentPanel === "cv" && (
             <motion.div
               key="cv"
-              className="content-overlay"
-              style={{ color: "#ffffff", backgroundColor: "#000000" }}
+              className="cv-overlay"
+              style={{
+                color: "#ffffff",
+                backgroundColor: panel_color,
+                zIndex: 10,
+              }}
               variants={panelVariants}
               initial="slideIn"
               animate="visible"
@@ -280,12 +286,9 @@ function App() {
               <CV />
             </motion.div>
           )}
-        </AnimatePresence>{" "}
+        </AnimatePresence>
       </Router>
-      <div
-        className="content-overlay"
-        style={{ color: font_color, backgroundColor: panel_color }} // Dynamically set font color
-      ></div>
+
       <Canvas id="canvas">
         <Suspense fallback={null}>
           <SmokeEffect />
@@ -307,7 +310,6 @@ function App() {
           color={color}
           emissive_color={color_emission}
           emissive_intensity={emission_intensity}
-          shininess={shininess}
           opacity={0.9}
         />
         <EffectComposer>
