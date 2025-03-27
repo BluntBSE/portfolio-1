@@ -1,25 +1,15 @@
 import { useState, useRef, useEffect, Suspense } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { TextureLoader } from "three";
-import {
-  EffectComposer,
-  Bloom,
-  DepthOfField,
-} from "@react-three/postprocessing";
-import {
-  OrbitControls,
-  Stats,
-  axesHelper,
-  shaderMaterial,
-} from "@react-three/drei";
-import { Mesh, Group, AmbientLight } from "three";
-import { Leva, useControls } from "leva";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+
+import { Mesh, Group } from "three";
+import { useControls } from "leva";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import SmokeEffect from "./components/SmokeEffect";
 import About from "./components/About";
 import Navigation from "./components/Navigation";
-import CV from "./components/Cv"; // Create this component
+import CV from "./components/CV";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -27,7 +17,6 @@ interface ExperienceProps {
   color: string;
   emissive_color: string;
   emissive_intensity: number;
-  shininess: number;
   opacity: number;
 }
 
@@ -153,14 +142,14 @@ function App() {
     font_color,
     panel_color,
   } = useControls({
-    x: { value: initialSettings.x, min: -10, max: 10, step: 0.1 },
-    y: { value: initialSettings.y, min: -10, max: 10, step: 0.1 },
-    z: { value: initialSettings.z, min: -10, max: 10, step: 0.1 },
+    x: { value: initialSettings.x as number, min: -10, max: 10, step: 0.1 },
+    y: { value: initialSettings.y as number, min: -10, max: 10, step: 0.1 },
+    z: { value: initialSettings.z as number, min: -10, max: 10, step: 0.1 },
     color: { value: initialSettings.color },
     color_fog: { value: initialSettings.color_fog },
     color_emission: { value: initialSettings.color_emission },
     emission_intensity: {
-      value: initialSettings.emission_intensity,
+      value: initialSettings.emission_intensity as number,
       min: 0,
       max: 20,
       step: 0.1,
@@ -169,7 +158,7 @@ function App() {
     ambient_intensity: { value: 0.5, min: 0, max: 20, step: 0.1 },
     color_light: { value: initialSettings.color_light },
     color_light_intensity: {
-      value: initialSettings.color_light_intensity,
+      value: initialSettings.color_light_intensity as number,
       min: 0,
       max: 100,
       step: 1,
